@@ -1,0 +1,29 @@
+mat-toolbar {
+  position: fixed;
+  z-index: 2;
+}
+
+mat-toolbar .logo {
+  display: flex;
+  align-items: center;
+}
+
+mat-toolbar .logo-mobile {
+  overflow: hidden;
+  width: 38px;
+}
+
+mat-toolbar .logo img {
+  width: 180px;
+  height: auto;
+}
+
+.container {
+  padding: 16px;
+  position: relative;
+  top: 64px;
+}
+
+.container mat-card {
+  padding: 0
+}

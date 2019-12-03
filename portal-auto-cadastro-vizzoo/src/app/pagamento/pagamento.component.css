@@ -1,0 +1,7 @@
+.selecionar-mes-ano .mat-calendar-period-button {
+  pointer-events: none;
+}
+  
+.selecionar-mes-ano .mat-calendar-arrow {
+  display: none;
+}

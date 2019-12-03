@@ -1,0 +1,32 @@
+<mat-toolbar color="primary">
+  <div class="logo" ngClass.xs="logo-mobile">
+    <img [src]="logo"/>
+  </div>
+  <span fxFlex></span>
+  <span>AUTO-CONTRATAÇÃO</span>
+  <span fxFlex fxHide.lt-md></span>
+  <span style="width: 180px" fxHide.lt-md></span>
+</mat-toolbar>
+
+<div class="container" fxLayout.gt-md="row" [ngStyle.xs]="{'top': '56px'}">
+  <mat-card fxFlex.gt-md="60" fxFlexOffset.gt-md="20">
+    <mat-horizontal-stepper linear #stepper [labelPosition]="isMobile ? 'bottom' : null" ngClass.lt-md="stepper-mobile">      
+      <mat-step editable="false" [stepControl]="stepPlano.planoFormGroup" label="Planos e Contato">
+        <app-plano [isMobile]="isMobile"></app-plano>
+      </mat-step>      
+      <mat-step editable="false" [stepControl]="stepEmpresa.empresaFormGroup" label="Informações da Empresa">
+        <app-empresa></app-empresa>
+      </mat-step>
+      <mat-step editable="false" label="Estabelecimentos">
+        <app-filial></app-filial>
+      </mat-step>            
+      <mat-step editable="false" label="Adquirentes">
+        <app-adquirentes></app-adquirentes>
+      </mat-step>                 
+      <mat-step editable="false" label="Pagamento">
+        <app-pagamento></app-pagamento>
+      </mat-step>
+    </mat-horizontal-stepper>
+  </mat-card>
+</div>
+<app-loader></app-loader>

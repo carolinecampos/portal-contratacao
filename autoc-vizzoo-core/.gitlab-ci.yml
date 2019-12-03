@@ -1,0 +1,71 @@
+stages:
+- build-package
+- deploy
+- release
+
+docker build image:
+  stage: build-package
+  tags: [docker-dind]
+  only: [master]
+  dependencies: []
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  before_script:
+    - export BUILD_DATE=`date +%Y-%m-%dT%H:%M:%S`
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"gitlab-ci-token\",\"password\":\"$CI_BUILD_TOKEN\"}}}" > /kaniko/.docker/config.json
+  script:
+    - /kaniko/executor --context $CI_PROJECT_DIR --build-arg arg_revision=$CI_COMMIT_SHORT_SHA --build-arg arg_build_date=$BUILD_DATE --dockerfile $CI_PROJECT_DIR/Dockerfile --destination $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
+
+docker build image qa:
+  stage: build-package
+  tags: [docker-dind]
+  only: [/^hot-fix.*$/]
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  before_script:
+    - export BUILD_DATE=`date +%Y-%m-%dT%H:%M:%S`
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"gitlab-ci-token\",\"password\":\"$CI_BUILD_TOKEN\"}}}" > /kaniko/.docker/config.json
+  script:
+    - /kaniko/executor --context $CI_PROJECT_DIR --build-arg arg_revision=$CI_COMMIT_SHORT_SHA --dockerfile $CI_PROJECT_DIR/portal-auto-cadastro-vizzoo/Dockerfile --destination $CI_REGISTRY_IMAGE:pre-production
+
+build package qa:
+  stage: build-package
+  tags: [docker-dind]
+  only: [pre-production]
+  script:
+    - docker pull gitlab-dreg.nexxera.com/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:master
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN -e devops@nexxera.com gitlab-dreg.nexxera.com
+    - docker tag gitlab-dreg.nexxera.com/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:master gitlab-dreg.nexxera.com/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:pre-production
+    - docker push gitlab-dreg.nexxera.com/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:pre-production
+
+release to production:
+    stage: release
+    tags: [docker-dind]
+    only: [production]
+    script:
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN -e devops@nexxera.com gitlab-dreg.nexxera.com
+    - docker pull gitlab-dreg.nexxera.com/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:pre-production
+    - docker tag gitlab-dreg.nexxera.com/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:pre-production gitlab-dreg.nexxera.com/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:$CI_COMMIT_REF_NAME
+    - docker push gitlab-dreg.nexxera.com/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:$CI_COMMIT_REF_NAME
+
+.deploy: &deploy_script
+  script:
+    - ansible-playbook /ansible-deploy/site.yml -e deploy_vars=/builds/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME/etc/environment/$CI_ENVIRONMENT_NAME.yml -e target=$CI_ENVIRONMENT_NAME -vvv
+
+deploy to dev:
+   stage: deploy
+   tags: [ansible-deploy]
+   only: [master]
+   environment:
+     name: dev
+   <<: *deploy_script
+
+deploy to qa:
+   stage: deploy
+   tags: [ansible-alphav4]
+   only: [pre-production]
+   environment:
+     name: qa
+   <<: *deploy_script

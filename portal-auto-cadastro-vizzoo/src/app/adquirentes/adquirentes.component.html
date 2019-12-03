@@ -1,0 +1,10 @@
+  <div fxLayout="row wrap">
+    <div class="checkbox-container" *ngFor="let adq of todasAdquirentes" fxFlex fxLayout="column" fxLayoutAlign="center start" [ngClass]="{'checked': adq.checked}">
+      <mat-checkbox [checked]="adq.checked" (change)="onChange(adq)" matTooltip="{{adq.nome}}" >
+        <img src="{{adq.logo}}" />
+      </mat-checkbox>
+    </div>
+  </div>
+  <div class="form-action" fxLayout="row" fxLayoutAlign="end start">
+    <button class="next-btn" mat-flat-button matStepperNext color="primary" [disabled]="naoEscolheuAdq" (click)="proximo()">Próximo <mat-icon>chevron_right</mat-icon></button>
+  </div>  

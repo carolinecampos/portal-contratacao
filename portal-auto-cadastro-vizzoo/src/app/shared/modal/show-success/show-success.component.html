@@ -1,0 +1,9 @@
+<h1 mat-dialog-title class="primary-color">{{titulo}}</h1>
+<div mat-dialog-content *ngFor="let msg of mensagem;" >
+  <p>{{msg}}</p>
+</div>
+<div mat-dialog-actions align="end">
+  <a href="{{url}}">
+    <button mat-flat-button color="primary" (click)="fechar()">OK</button>
+  </a>
+</div>

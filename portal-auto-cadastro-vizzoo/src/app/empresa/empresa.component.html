@@ -1,0 +1,94 @@
+<form [formGroup]="empresaFormGroup">
+  <h3 class="mat-title">Dados do Contratante</h3>
+  <div fxLayout="column" fxLayout.gt-sm="row">
+    <mat-form-field fxFlex>
+      <input matInput placeholder="Razão Social" formControlName="razaosocial" required>
+      <mat-error *ngFor="let validation of validationMessages">
+        <mat-error *ngIf="empresaFormGroup.get('razaosocial').hasError(validation.type)">{{validation.message}}</mat-error>
+      </mat-error>
+    </mat-form-field>
+    <span fxFlex="5"></span>
+    <mat-form-field fxFlex>
+      <input matInput placeholder="CNPJ da Empresa ou do Grupo" formControlName="cnpj" mask="00.000.000/0000-00" required>
+      <mat-error *ngFor="let validation of validationMessages">
+        <mat-error *ngIf="empresaFormGroup.get('cnpj').hasError(validation.type)">{{validation.message}}</mat-error>
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <div fxLayout="column" fxLayout.gt-sm="row">
+    <mat-form-field fxFlex>
+      <input matInput placeholder="Nome Fantasia" formControlName="nome_fantasia">
+      <mat-error *ngFor="let validation of validationMessages">
+        <mat-error *ngIf="empresaFormGroup.get('nome_fantasia').hasError(validation.type)">{{validation.message}}</mat-error>
+      </mat-error>
+    </mat-form-field>
+    <span fxFlex="5"></span>
+    <mat-form-field fxFlex>
+      <input matInput placeholder="Inscrição Estadual" formControlName="inscricao_estadual">
+      <mat-error *ngFor="let validation of validationMessages">
+        <mat-error *ngIf="empresaFormGroup.get('inscricao_estadual').hasError(validation.type)">{{validation.message}}</mat-error>
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <h3 class="mat-title">Endereço</h3>
+  <div fxLayout="column" fxLayout.gt-sm="row">
+    <mat-form-field fxFlex="30">
+      <input matInput placeholder="CEP" formControlName="cep" required mask="00.000-000" (change)="changeSelectEndereco($event, empresaFormGroup)">
+      <mat-error *ngFor="let validation of validationMessages">
+        <mat-error *ngIf="empresaFormGroup.get('cep').hasError(validation.type)">{{validation.message}}</mat-error>
+      </mat-error>
+    </mat-form-field>
+    <span fxFlex="5"></span>
+    <mat-form-field fxFlex>
+      <input matInput placeholder="Logradouro" formControlName="endereco" required>
+      <mat-error *ngFor="let validation of validationMessages">
+        <mat-error *ngIf="empresaFormGroup.get('endereco').hasError(validation.type)">{{validation.message}}</mat-error>
+      </mat-error>
+    </mat-form-field>
+    <span fxFlex="5"></span>
+    <mat-form-field fxFlex="10">
+      <input matInput placeholder="Número" formControlName="numero" required>
+      <mat-error *ngFor="let validation of validationMessages">
+        <mat-error *ngIf="empresaFormGroup.get('numero').hasError(validation.type)">{{validation.message}}</mat-error>
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <div fxLayout="column" fxLayout.gt-sm="row">
+    <mat-form-field fxFlex>
+      <input matInput placeholder="Complemento" formControlName="complemento">
+      <mat-error *ngFor="let validation of validationMessages">
+        <mat-error *ngIf="empresaFormGroup.get('complemento').hasError(validation.type)">{{validation.message}}</mat-error>
+      </mat-error>
+    </mat-form-field>
+    <span fxFlex="5"></span>
+    <mat-form-field fxFlex>
+      <input matInput placeholder="Bairro" formControlName="bairro" required>
+      <mat-error *ngFor="let validation of validationMessages">
+        <mat-error *ngIf="empresaFormGroup.get('bairro').hasError(validation.type)">{{validation.message}}</mat-error>
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <div fxLayout="column" fxLayout.gt-sm="row">   
+    <mat-form-field fxFlex>
+      <input matInput placeholder="Cidade" formControlName="cidade" required>
+      <mat-error *ngFor="let validation of validationMessages">
+        <mat-error *ngIf="empresaFormGroup.get('cidade').hasError(validation.type)">{{validation.message}}</mat-error>
+      </mat-error>
+    </mat-form-field>
+    <span fxFlex="5"></span>
+    <mat-form-field fxFlex>
+      <mat-select fxFlex="100" (change)="changeSelectUF($event)" formControlName="uf" matNativeControl placeholder="Estado" required>
+        <mat-option *ngFor="let estado of estados" [value]="estado.sigla">
+          {{estado.nomeCompleto}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngFor="let validation of validationMessages">
+        <mat-error *ngIf="empresaFormGroup.get('uf').hasError(validation.type)">{{validation.message}}</mat-error>
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <div class="form-action" fxLayout="row" fxLayoutAlign="end start">
+    <button class="next-btn" mat-flat-button color="primary" [disabled]="empresaFormGroup.invalid" matStepperNext (click)="proximo(empresaFormGroup)">Próximo <mat-icon>chevron_right</mat-icon></button>
+  </div>
+</form>

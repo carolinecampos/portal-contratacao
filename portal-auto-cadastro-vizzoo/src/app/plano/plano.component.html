@@ -1,0 +1,55 @@
+<form [formGroup]="planoFormGroup">
+  <h3 class="mat-title">Planos</h3>
+  <mat-form-field fxLayout="column">
+    <mat-select placeholder="Selecione a quantidade de transações" fxFlex="100" (change)="changeSelectFranquia($event)" formControlName="franquia" matNativeControl required>
+      <mat-option *ngFor="let franq of franquias" [value]="franq.id">
+        Valor fixo de R$ {{franq.valor_fixo}} por {{franq.qtde_transacao}} transações
+      </mat-option>
+    </mat-select>
+    <mat-error *ngFor="let validation of validationMessages">
+      <mat-error *ngIf="planoFormGroup.get('franquia').hasError(validation.type)">{{validation.message}}</mat-error>
+    </mat-error>
+  </mat-form-field>
+
+  <h3 class="mat-title">Contato</h3>
+  <div fxLayout="column" fxLayout.gt-sm="row">
+    <mat-form-field fxFlex>
+      <input matInput placeholder="Nome Completo do Responsável" formControlName="nome" required>
+      <mat-error *ngFor="let validation of validationMessages">
+        <mat-error *ngIf="planoFormGroup.get('nome').hasError(validation.type)">{{validation.message}}</mat-error>
+      </mat-error>
+    </mat-form-field>
+    <span fxFlex="5"></span>
+    <mat-form-field fxFlex>
+      <input matInput placeholder="Telefone" formControlName="telefone" required mask="(00) 0000-00009">
+      <mat-error *ngFor="let validation of validationMessages">
+        <mat-error *ngIf="planoFormGroup.get('telefone').hasError(validation.type)">{{validation.message}}</mat-error>
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <div fxLayout="column" fxLayout.gt-sm="row">
+    <mat-form-field fxFlex>
+      <input matInput placeholder="E-mail" formControlName="email" required>
+      <mat-error *ngFor="let validation of validationMessages">
+        <mat-error *ngIf="planoFormGroup.get('email').hasError(validation.type)">{{validation.message}}</mat-error>
+      </mat-error>
+    </mat-form-field>
+    <span fxFlex="5"></span>
+    <mat-form-field fxFlex>
+      <input matInput placeholder="Confirme o E-mail" required formControlName="confirmaEmail">
+      <mat-error *ngFor="let validation of validationMessages">
+        <mat-error *ngIf="planoFormGroup.get('confirmaEmail').hasError(validation.type)">{{validation.message}}</mat-error>
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <h3 class="mat-title">Contrato</h3>
+  <div fxLayout="row" class="contrato">
+    <mat-checkbox formControlName="autorizacao" required></mat-checkbox>
+    <small>Declaro que li e concordo com os termos <a href="{{contrato}}" target="_blank">Contrato de Prestação de Serviço de Conciliação de Cartões - Vizzoo.</a> Autorizo expressamente a transmissão dos meus dados cadastrais e todas as informações prestadas referentes a utilização e
+    autorização junto as adquirentes, para que sejam disponibilizadas todas as funcionalidades do Vizzoo.</small>
+  </div>  
+  <div class="form-action" fxLayout="row" fxLayoutAlign="end start">
+    <button class="next-btn" mat-flat-button matStepperNext color="primary" [disabled]="planoFormGroup.invalid" (click)="proximo(planoFormGroup)">Próximo <mat-icon>chevron_right</mat-icon></button>
+  </div>
+</form>

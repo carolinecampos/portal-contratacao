@@ -1,0 +1,31 @@
+.mat-title {
+  margin: 16px 0;
+}
+
+.mat-form-field {
+  margin-bottom: 8px;
+}
+
+.form-action {
+  margin-top: 24px;
+
+  .next-btn {
+    padding-right: 8px;
+  }
+
+  .prev-btn {
+    padding-left: 8px;
+  }
+}
+
+table {
+  width: 100%;
+  margin-top: 24px;
+  border: 1px solid rgba(0,0,0,.12);
+  border-bottom: 0;
+}
+
+.mat-header-row {
+  height: 48px !important;
+}
+

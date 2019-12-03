@@ -1,0 +1,22 @@
+apps:
+  - name: "autocontratacao-vizzoo-web"
+    deploy_name: "autocontratacao-vizzoo-web"
+    group: "vizzoo-qa"
+    image: "gitlab-dreg.nexxera.com/nexxcard/portal-auto-cadastro-vizzoo:master"
+    cpu:
+        min: "10"
+        max: "200"
+    memory:
+        min: "10"
+        max: "128"     
+    routes:
+      - name: "autocontratacao-vizzoo-web-qa"
+        hostname: "autocontratacao-vizzoo-web-qa"
+        port: "8080"
+        path: ""
+        certificate: ""
+    env_vars:
+      - URL_API='https://autoc-vizzo-core-qa.cloudint.nexxera.com'
+      - API_LOGIN='autocontratacao'
+      - API_PASSWORD='autocvizzoo!'
+      - URL_VIZZO='https://vizzoo-web-app.nexxera.io/login'

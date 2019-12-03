@@ -1,0 +1,20 @@
+<div fxFlex fxLayout="column">
+<div class="iconeBoleto" ngClass.xs="iconeBoleto-mobile" fxFlex fxLayout="row" >
+    <img [src]="iconeBoleto"/>
+    <span fxFlex="2"></span>
+    <div fxFlex fxLayoutAlign="start center" >
+      <strong>Pagamento à vista</strong>
+    </div>
+</div>
+<span fxFlex="3"></span>
+<div>
+  <br/> 
+    Clique em concluir para imprimir o boleto e finalizar o pedido. 
+    A data de vencimento é de 7 dias corridos após a contratação do vizzoo e após este prazo perderá a validade. 
+  <br/>
+</div>
+<div class="form-action" fxLayout="row" fxLayoutAlign="end start">    
+    <button class="next-btn" mat-flat-button color="primary" (click)="concluir()">Concluir <mat-icon>check</mat-icon></button>
+</div> 
+</div>
+

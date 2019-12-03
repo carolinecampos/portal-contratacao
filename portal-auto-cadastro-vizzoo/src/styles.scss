@@ -1,0 +1,39 @@
+@import '~@angular/material/theming';
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+@include mat-core();
+
+$app-primary: mat-palette($mat-indigo, 900, 400, 500);
+$app-accent: mat-palette($mat-blue, 500, 600, 700);
+$app-warn: mat-palette($mat-deep-orange, 500, 300, 800);
+
+$app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
+
+@include angular-material-theme($app-theme);
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;}
+
+.primary-color {
+  color: mat-color($app-primary) !important;
+}
+
+.warn-color {
+  color: mat-color($app-warn) !important;
+}
+
+.mat-step-header {
+  pointer-events: none !important;
+}
+
+.stepper-mobile .mat-step-icon {
+  height: 19px;
+  width: 19px;
+  font-size: 15px;
+}
+
+.stepper-mobile .mat-step-label {
+  font-size: 11px;
+  white-space: normal;
+  min-width: 65px;
+}

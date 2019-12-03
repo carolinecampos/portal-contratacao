@@ -1,0 +1,46 @@
+<form [formGroup]="cartaoFormGroup">
+  <div fxLayout="column" fxLayout.gt-sm="row">
+     <mat-form-field fxFlex>
+          <input matInput placeholder="Número do Cartão" formControlName="numeroCartao" required ccNumber>      
+          <mat-error *ngFor="let validation of validationMessages">
+              <mat-error *ngIf="cartaoFormGroup.get('numeroCartao').hasError(validation.type)">{{validation.message}}</mat-error>
+            </mat-error>
+      </mat-form-field>
+      <span fxFlex="5"></span>
+      <mat-form-field>
+        <input matInput [matDatepicker]="dp" placeholder="Data de Validade" formControlName="dataValidade">
+        <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+        <mat-datepicker #dp
+                        startView="multi-year"
+                        (yearSelected)="escolherAno($event, cartaoFormGroup)"
+                        (monthSelected)="escolherMes($event, dp, cartaoFormGroup)"
+                        panelClass="selecionar-mes-ano">
+        </mat-datepicker>
+      </mat-form-field>
+      <span fxFlex="5"></span>
+      <mat-form-field fxFlex>
+          <input matInput placeholder="Código de Segurança" formControlName="codigoSeguranca" required ccCVC>      
+          <mat-error *ngFor="let validation of validationMessages">
+            <mat-error *ngIf="cartaoFormGroup.get('codigoSeguranca').hasError(validation.type)">{{validation.message}}</mat-error>
+          </mat-error>
+      </mat-form-field>
+  </div>
+  <div fxLayout="column" fxLayout.gt-sm="row">     
+    <mat-form-field fxFlex>
+      <input matInput placeholder="Nome Impresso no Cartão" formControlName="nomeImpresso" required>
+      <mat-error *ngFor="let validation of validationMessages">
+        <mat-error *ngIf="cartaoFormGroup.get('nomeImpresso').hasError(validation.type)">{{validation.message}}</mat-error>
+      </mat-error>
+    </mat-form-field>
+    <span fxFlex="5"></span>
+    <mat-form-field fxFlex>
+      <input matInput placeholder="CPF" formControlName="cpf" required mask="000.000.000-00">
+      <mat-error *ngFor="let validation of validationMessages">
+        <mat-error *ngIf="cartaoFormGroup.get('cpf').hasError(validation.type)">{{validation.message}}</mat-error>
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <div class="form-action" fxLayout="row" fxLayoutAlign="end start">
+    <button class="next-btn" mat-flat-button color="primary" [disabled]="cartaoFormGroup.invalid" (click)="concluir(cartaoFormGroup)">Concluir <mat-icon>check</mat-icon></button>
+  </div>
+</form>

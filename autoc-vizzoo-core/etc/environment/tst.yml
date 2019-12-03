@@ -1,0 +1,23 @@
+app_name: "autoc-vizzo-core"
+namespace: "vizzoo-tst"
+
+apps:
+  - name: "{{ app_name }}"
+    deploy_name: "{{ app_name }}"
+    group: "{{ namespace }}"
+    image: "gitlab-dreg.nexxera.com/nexxcard/autoc-vizzoo-core:pre-production"
+    cpu:
+        min: "10"
+        max: "200"
+    memory:
+        min: "10"
+        max: "256"                      
+    routes:
+      - name: "{{ app_name }}-tst"
+        hostname: "{{ app_name }}-tst"
+        port: "8080"
+        path: ""
+        certificate: ""
+        external: true
+    env_vars:
+        
