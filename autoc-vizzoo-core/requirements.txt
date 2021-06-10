@@ -1,4 +1,4 @@
-django==1.11.16
+django==2.2.24
 djangorestframework==3.9.0
 cx_Oracle==6.3.1
 django-cors-headers==2.4.0
